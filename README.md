@@ -6,7 +6,8 @@ The project was a great experience for a number of reasons.  It let me see into 
 
 I worked on two stories during my two weeks.  The first story was a back end story, while the second story was primarily front end.  Below are the descriptions of the stories I worked on including code snippets and screen shots.  
 
-#**Back End Story**
+# **Back End Story**
+
 My first story, Implement Job Other, required me to get user notes about a job to save to our attached database and appear in the job menu.  Initially, when a user inputted a note about a job, nothing was returning to the menu page on the website.  
 
 
