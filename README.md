@@ -12,7 +12,7 @@ My first story, Implement Job Other, had two parts.  The first part required me 
 
 ![Create without Notes](Images/Screenshot%20(12).png)
 
-See, no saved notes.  After spending time getting myself acquainted with the code of the program, I found that the method in the controller to create a new job needed to bind the model JobOther, where the note property existed, with the model Jobs, which contained all the other properties of the job.  
+See, no saved notes.  After spending time getting myself acquainted with the code of the program, I found that the method in the Jobs controller to create a new job needed to bind the model JobOther, where the note property existed, with the model Jobs, which contained all the other properties of the job.  
 
         public ActionResult Create([Bind(Include = "JobIb,JobTitle,JobType,Active,Location,Manager")] Job job,
             [Bind(Include = "ShiftTimeId,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,Default")] ShiftTime shiftTime,
@@ -41,4 +41,56 @@ See, no saved notes.  After spending time getting myself acquainted with the cod
             return View(job);
         }
 
+That did the trick, and notes were now appearing in newly created jobs.  
+
 ![Create With Notes](Images/Screenshot%20(18).png)
+
+The second part of the story was to allow users to use an edit function to change the notes.  This required some changes to the edit method again in the Jobs controller.
+
+        public ActionResult Edit([Bind(Include = "JobIb,JobTitle,JobType,Active,Location,Manager,Details")] Job modelJob)
+        {
+            Job job = db.Jobs.Find(modelJob.JobIb);
+          
+            JobOther jobOther = db.JobOthers.Find(modelJob.Details.JobOtherId);
+
+            if (jobOther == null)
+            {
+                jobOther = new JobOther();
+                jobOther.Job = job;
+                jobOther.Note = modelJob.Details.Note;
+                db.JobOthers.Add(jobOther); 
+                db.SaveChanges();
+                db.Entry(job.Details).State = EntityState.Modified;
+            }
+            else
+            {
+                job.Details.Note = modelJob.Details.Note;
+                db.Entry(job.Details).State = EntityState.Modified;
+            }
+
+            if (job.Manager == null || job.Location == null)
+            {
+                PopulateJobDropDowns(job);
+            }
+            else
+            {
+                PopulateJobDropDowns(job, job.Location.JobSiteID, job.Manager.Id);
+            }
+
+            var LocationId = Request.Form["LocationSelector"].ToString();
+            var ManagerId = Request.Form["ManagerSelector"].ToString();
+
+            if (ModelState.IsValid)
+            {
+                job.Location = db.JobSites.Find(Int32.Parse(LocationId));
+                job.Manager = db.Users.Find(ManagerId);
+                db.Entry(job).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            
+            return View(job);
+        }
+        
+The hard part of this task was that I was able to get the database to save an edit of the notes, however it was always showing a null value.  This was a bit beyond my skills to figure out why, but with the help of the project director we were able to determine the  issue was that the Model State is determined to be Valid at the time to form is passed to the controller, not at the time the property is checked. So, even though I was making changes to make the object valid, that didn't change the valid property. If there is no value, you need to pass it a default value, and since the JobIb is the same value as the JobOtherId, you tell it that is the default value. Therefore, the code in the edit cshtml page had to look as so:  
+@Html.HiddenFor(model => model.Details.JobOtherId, new { @Value = Model.JobIb.ToString() })
