@@ -10,9 +10,9 @@ I worked on two stories during my two weeks.  The first story was a back end sto
 
 My first story, Implement Job Other, had two parts.  The first part required me to get user notes about a job to save to our attached database and appear in the job menu.  Initially, when a user inputted a note about a job, nothing was returning to the menu page on the website.  
 
-![Story 1](Images/Screenshot%20(12).png)
+![Create without Notes](Images/Screenshot%20(12).png)
 
-See, no saved notes.  After spending time getting myself acquainted with the code of the program, I found that the method in the controller to create a new job needed to be bind the model JobOther, where the note property existed, with the mod Jobs, which contained all the other properties of the job.  
+See, no saved notes.  After spending time getting myself acquainted with the code of the program, I found that the method in the controller to create a new job needed to bind the model JobOther, where the note property existed, with the model Jobs, which contained all the other properties of the job.  
 
         public ActionResult Create([Bind(Include = "JobIb,JobTitle,JobType,Active,Location,Manager")] Job job,
             [Bind(Include = "ShiftTimeId,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,Default")] ShiftTime shiftTime,
@@ -40,3 +40,5 @@ See, no saved notes.  After spending time getting myself acquainted with the cod
             }
             return View(job);
         }
+
+![Create With Notes](Images/Screenshot%20(18).png)
