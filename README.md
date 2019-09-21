@@ -10,5 +10,5 @@ I worked on two stories during my two weeks.  The first story was a back end sto
 
 My first story, Implement Job Other, required me to get user notes about a job to save to our attached database and appear in the job menu.  Initially, when a user inputted a note about a job, nothing was returning to the menu page on the website.  
 
-![Story 1](C:/Users/Ben/Pictures/Screenshots/Screenshot(12).png)
+![Story 1](Images/Screenshot%20(12).png)
 
