@@ -99,3 +99,63 @@ The challenging part of this task was that when a user edited a job, I was able 
 This made it so editing the notes was possible: 
 
 ![Edit With Notes](Images/Screenshot%20(19).png)
+
+# **Front End Story**
+
+In my second story I was tasked with fixing some action-link buttons for editing, deleting and showing details of a job schedule that were no longer working.  Since I was now much more familiar with the code, this was a much easier task than the first one.  I quickly noticed that the buttons weren't broken, they were actually missing in the code.  So, the first thing I did was add those buttons.  
+
+         <table class="table">
+        <tr>
+            <th scope="col">
+                @Html.ActionLink("Job Title", "Index", new { sortOrder = ViewBag.JobSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th scope="col">
+                @Html.ActionLink("Job Type", "Index", new { sortOrder = ViewBag.JobTypeSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th scope="col">
+                @Html.ActionLink("Person", "Index", new { sortOrder = ViewBag.PersonSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th scope="col">
+                @Html.ActionLink("Start Date", "Index", new { sortOrder = ViewBag.StartDateSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th scope="col">
+                @Html.ActionLink("End Date", "Index", new { sortOrder = ViewBag.EndSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th scope="col"></th>
+        </tr>
+        @foreach (var Job in Model)
+        {
+            var number = Job.Value.Count() + 1;
+            <tr>
+                <td rowspan="@number">
+                    @Html.DisplayFor(Model => Job.Key.JobTitle)
+                </td>
+                <td rowspan="@number">
+                    @Html.DisplayFor(Model => Job.Key.JobType)
+                </td>
+            </tr>
+            foreach (var schedule in Job.Value)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(Model => schedule.Person.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(Model => schedule.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(Model => schedule.EndDate)
+                    </td>
+                    <td>
+                        @Html.AnchorButton(AnchorType.Edit, Url.Action("Edit", new { id = schedule.ScheduleId }))
+                        @Html.AnchorButton(AnchorType.Details, Url.Action("Details", new { id = schedule.ScheduleId }))
+                        @Html.AnchorButton(AnchorType.Delete, Url.Action("Delete", new { id = schedule.ScheduleId }))
+                    </td>
+                </tr>
+            }
+        }
+        
+        
+I was confident this would work, but as the buttons were tied into the ScheduleId, I needed to create some schedule items to see if the buttons were visible once those schedule items were present.  However, when I tried to add some schedule items, they did not save.  
+
+![Create Schedule](Images/Screenshot%20(17).png)
