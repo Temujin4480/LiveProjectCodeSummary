@@ -171,3 +171,7 @@ After playing around with the code for awhile, I found that in the schedule mode
 After commenting out the DateRange class I was able to create schedule items and see that the action buttons were working.  
 
 ![Create Schedule Verified](Images/Screenshot%20(20).png)
+
+# **Conclusion**
+
+The live project gave me my first experience working with a team of programmers to develop an application, and provided me insight into what the daily life of a software developer looks like.  I enjoyed the challenges of trying to decipher pre written code, and the bigger challenge of trying to alter it without destroying the program.  I learned some very valuable techniques for how to work with a group of programmers, and with a code base I am unfamiliar that will serve me as a foundation for me to build upon in the future.  
