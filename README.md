@@ -159,3 +159,15 @@ In my second story I was tasked with fixing some action-link buttons for editing
 I was confident this would work, but as the buttons were tied into the ScheduleId, I needed to create some schedule items to see if the buttons were visible once those schedule items were present.  However, when I tried to add some schedule items, they did not save.  
 
 ![Create Schedule](Images/Screenshot%20(17).png)
+
+After playing around with the code for awhile, I found that in the schedule model there was a custom validation class that was included in the end date property of the schedule class.  By simply removing this it allowed schedule items to be created, and also edited and deleted.  It also did not affect the program to delete the end date property as I believe it's purpose was to create an error message if the job schedule began after the end date, but there was already some JavaScript code built in to the create view to give this error message.  
+
+        [DisplayName("End Date")]
+        [DisplayFormat(DataFormatString = @"{0:MM\/dd\/yyyy}", ApplyFormatInEditMode = true)]
+        //Schedule Create function will not work with an end date typed with the following line of code:
+        //[DateRange("Cannot enter an end date earlier than today or than the start date.")]
+        public DateTime? EndDate { get; set; }
+        
+After commenting out the DateRange class I was able to create schedule items and see that the action buttons were working.  
+
+![Create Schedule Verified](Images/Screenshot%20(20).png)
