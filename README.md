@@ -96,4 +96,6 @@ The challenging part of this task was that when a user edited a job, I was able 
 
         @Html.HiddenFor(model => model.Details.JobOtherId, new { @Value = Model.JobIb.ToString() })
 
+This made it so editing the notes was possible: 
 
+![Edit With Notes](Images/Screenshot%20(19).png)
