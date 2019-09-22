@@ -92,5 +92,8 @@ The second part of the story was to allow users to use an edit function to chang
             return View(job);
         }
         
-The hard part of this task was that I was able to get the database to save an edit of the notes, however it was always showing a null value.  This was a bit beyond my skills to figure out why, but with the help of the project director we were able to determine the  issue was that the Model State is determined to be Valid at the time to form is passed to the controller, not at the time the property is checked. So, even though I was making changes to make the object valid, that didn't change the valid property. If there is no value, you need to pass it a default value, and since the JobIb is the same value as the JobOtherId, you tell it that is the default value. Therefore, the code in the edit cshtml page had to look as so:  
-@Html.HiddenFor(model => model.Details.JobOtherId, new { @Value = Model.JobIb.ToString() })
+The challenging part of this task was that when a user edited a job, I was able to get the database to save the notes, however it was always returning a null value when it should have been returning a string.  This was a bit beyond my skills to figure out why, but with the help of the project director we were able to determine the issue causing this. We found the model state is determined to be valid at the time to form is passed to the controller, not at the time the property is checked. Therefore, we had to make changes to the Edit view to tell the controller the default value when it cannot find a value.  So, we added the follwoing line to the view: 
+
+        @Html.HiddenFor(model => model.Details.JobOtherId, new { @Value = Model.JobIb.ToString() })
+
+
