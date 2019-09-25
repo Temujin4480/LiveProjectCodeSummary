@@ -45,7 +45,7 @@ That did the trick, and notes were now appearing in newly created jobs.
 
 ![Create With Notes](Images/Screenshot%20(18).png)
 
-The second part of the story was to allow users to use an edit function to change the notes.  This required some changes to the edit method again in the Jobs controller.
+The second part of the story was to allow users to use an edit function to change the notes.  This required some changes to the edit method in the Jobs controller.
 
         public ActionResult Edit([Bind(Include = "JobIb,JobTitle,JobType,Active,Location,Manager,Details")] Job modelJob)
         {
@@ -92,7 +92,7 @@ The second part of the story was to allow users to use an edit function to chang
             return View(job);
         }
         
-The challenging part of this task was that when a user edited a job, I was able to get the database to save the notes, however it was always returning a null value when it should have been returning a string.  This was a bit beyond my skills to figure out why, but with the help of the project director we were able to determine the issue causing this. We found the model state is determined to be valid at the time to form is passed to the controller, not at the time the property is checked. Therefore, we had to make changes to the Edit view to tell the controller the default value when it cannot find a value.  So, we added the follwoing line to the view: 
+The challenging part of this task was that when a user edited a job, I was able to get the database to save the notes, however it was always returning a null value when it should have been returning a string.  This was a bit beyond my skills to figure out why, but with the help of the project director we were able to determine the issue causing this. We found the model state is determined to be valid at the time to form is passed to the controller, not at the time the property is checked. Therefore, we had to make changes to the Edit view to tell the controller the default value when it cannot find a value.  So, we added the following line to the view: 
 
         @Html.HiddenFor(model => model.Details.JobOtherId, new { @Value = Model.JobIb.ToString() })
 
